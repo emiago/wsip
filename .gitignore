@@ -1,0 +1,13 @@
+/psip
+/cmd
+/.vscode
+/.devspace
+/go.work*
+/docker-compose*
+/WIRESIP*.md
+/TODO.md
+/docker
+/sipp-tests
+/testdata
+/bin.Dockerfile
+/devspace.yaml
