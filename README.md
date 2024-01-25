@@ -1,6 +1,6 @@
 # Wiresip (WIP)
 
-Wiresip is new GO SIP library that hides some complexity of building SIP stateful proxies.
+Wiresip is GO SIP library that hides some complexity of building SIP stateful proxies.
 
 Inspiration for this is that
 
@@ -11,6 +11,7 @@ Here are some features path so that you know where this project is heading:
 - [x] Defining (inbound) targets and relaying request
 - [x] Dialog and cached DNS destinations
 - [x] Built in memory register handling
+- [ ] Unit testing handler
 - [ ] Matching Inbound or Outbound targets based on ip ranges, prefix numbers etc..
 - [ ] Extend dialog with current `sipgo.Dialog`
 - [ ] Dialog external caching interface for HA and scaling
@@ -18,7 +19,7 @@ Here are some features path so that you know where this project is heading:
 - [ ] Digest auth out of box 
 - [ ] Access dialogs and monitoring
 - [ ] RTP Proxy and media gateway
-- [ ] Topos module like kamailio for full topology hidding 
+- [ ] Topos module like kamailio for full topology hidding
 
 ## Controling request and relay
 
@@ -101,7 +102,7 @@ WithProxyOutboundTarget(
 - IN case 200 response for INVITE it creates dialog which can be accessed via `rc.Dialog()`
 
 
-### RTP proxy
+### RTP proxy (IDEA)
 
 RTP Proxy signaling:
 - Reads INVITE SDP
@@ -115,15 +116,6 @@ RTP Proxy signaling:
 - Returns response
 - When `RequestContext` dies RTP/RTCP will be closed
 
-
-## RelayResponse
-
-`RelayResponse` 
-- relays response to called `RelayRequest`
-- returns err:
-    - Not found destination
-    - network issue, dns resolving etc.
-- 
 
 
 # How to unit test request/response
