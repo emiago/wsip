@@ -16,6 +16,7 @@ Here are some features path so that you know where this project is heading:
 - [ ] Extend dialog with current `sipgo.Dialog`
 - [ ] Dialog external caching interface for HA and scaling
 - [ ] IP auth module based on request Source
+- [ ] HA solutions with external dialog/transaction storage (`sipgo` patching)
 - [ ] Digest auth out of box 
 - [ ] Access dialogs and monitoring
 - [ ] RTP Proxy and media gateway
