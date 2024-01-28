@@ -200,6 +200,17 @@ func (rc *RequestContext) RelayRequest(req *sip.Request) (<-chan *sip.Response, 
 
 				// 9.
 
+				// Handle NAT
+				res.RemoveHeader("Contact")
+				res.AppendHeader(&sip.ContactHeader{
+					Address: sip.Uri{
+						User: p.s.Name(),
+						Host: p.hostname,
+						Port: p.s.TransportLayer().GetListenPort(sip.NetworkToLower(req.Transport())),
+					},
+					Params: sip.NewParams(),
+				})
+
 				res.SetDestination(req.Source())
 				// rc.log.Info().Str("dst", req.Source()).Msg("relaying response")
 				// if err := tx.Respond(res); err != nil {
