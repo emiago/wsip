@@ -2,7 +2,7 @@
 
 Wiresip is GO SIP library that hides some complexity of building SIP stateful proxies.
 
-Inspiration for this is that
+Inspiration for this is that current some solutions are hard to customize but also hard to test changes.
 
 Main goal is that you are able to relaying request responses but under control and all 
 that with simple API.
@@ -11,6 +11,8 @@ Here are some features path so that you know where this project is heading:
 - [x] Defining (inbound) targets and relaying request
 - [x] Dialog and cached DNS destinations
 - [x] Built in memory register handling
+- [x] Proxy dialog (call) routing works
+- [ ] Create `cli` single binary based proxy for easy running as POC
 - [ ] Unit testing handler
 - [ ] Matching Inbound or Outbound targets based on ip ranges, prefix numbers etc..
 - [ ] Extend dialog with current `sipgo.Dialog`
