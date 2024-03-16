@@ -34,6 +34,10 @@ type Proxy struct {
 	dialogsMu sync.RWMutex
 	dialogs   map[string]Dialog
 
+	// Lets try reusing sipgo dialog managment
+	// dialogCli *sipgo.DialogClient
+	// dialogSrv *sipgo.DialogServer
+
 	OnRequest func(rc *RequestContext)
 
 	log zerolog.Logger

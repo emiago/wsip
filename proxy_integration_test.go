@@ -51,7 +51,7 @@ func TestIntegrationRegister(t *testing.T) {
 	defer ua.Close()
 	client, _ := sipgo.NewClient(ua)
 
-	req := sip.NewRequest(sip.REGISTER, &sip.Uri{User: "tester", Host: host, Port: port})
+	req := sip.NewRequest(sip.REGISTER, sip.Uri{User: "tester", Host: host, Port: port})
 	req.AppendHeader(sip.NewHeader("Contact", "<sip:test@youwillnotfind.me>"))
 	req.AppendHeader(sip.NewHeader("Expire", ""))
 

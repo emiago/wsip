@@ -62,6 +62,52 @@ func (rc *RequestContext) RelayRequest(req *sip.Request) (<-chan *sip.Response, 
 	dst := dstUri.HostPort()
 	rc.log.Debug().Str("dst", dst).Msg("Get destination")
 
+	// Example of ROUTE and Record Route headers procesing
+	// https://datatracker.ietf.org/doc/html/rfc3261#section-16.12.1.2
+
+	// Simple explanation:
+	// If request contains Route header and next hop
+	// - Does not contain ;lr -> strict routing
+	//						  -> Then replace request URI with Route and add current RequestURI as last RouteHeader
+	// 						  -> last RouteHeader must be used by loose router to return back to request URI if finds a match
+
+	// - Does contain ;lr -> loose routing -> Do not change REquestURI and just remove Route header
+
+	// Before setting destination
+	// TODO strict routing
+	// https://datatracker.ietf.org/doc/html/rfc3261#section-16.4
+	// 	The proxy MUST inspect the Request-URI of the request.  If the
+	//    Request-URI of the request contains a value this proxy previously
+	//    placed into a Record-Route header field (see Section 16.6 item 4),
+	//    the proxy MUST replace the Request-URI in the request with the last
+	//    value from the Route header field, and remove that value from the
+	//    Route header field.
+
+	// https://datatracker.ietf.org/doc/html/rfc3261#section-16.6
+	//	If the copy contains a Route header field, the proxy MUST
+	// 	inspect the URI in its first value.  If that URI does not
+	// 	contain an lr parameter, the proxy MUST modify the copy as
+	// 	follows:
+
+	// 	-  The proxy MUST place the Request-URI into the Route header
+	// 	   field as the last value.
+
+	// 	-  The proxy MUST then place the first Route header field value
+	// 	   into the Request-URI and remove that value from the Route
+	// 	   header field.
+
+	// 	Proxy Processing (Strict Routing):
+	// The proxy examines the Route headers and forwards the request according to the strict routing rules.
+	// It ignores any Record-Route headers in the request.
+	// If no Route headers are present, the proxy forwards the request based on its routing logic.
+
+	// 	Proxy Processing (Loose Routing):
+	// If loose routing is allowed, the proxy checks the Route headers but prefers the Request-URI for routing if no Route headers are present.
+	// It may also consider Record-Route headers for routing decisions.
+	// The proxy may insert its own Route header if necessary.
+
+	// TODO when to actually set destination?
+	// We will override ROUTE header check with this command
 	req.SetDestination(dst)
 
 	// Rewrite Contact to prevent some external
@@ -165,6 +211,8 @@ func (rc *RequestContext) RelayRequest(req *sip.Request) (<-chan *sip.Response, 
 						// so this way we have DNS resolving once
 						shost, sport, _ := sip.ParseAddr(req.Source())
 						dhost, dport, _ := sip.ParseAddr(req.Destination())
+
+						// TODO we need consider Contact header and use that to cache in DNS!
 						p.dialogsMu.Lock()
 						p.dialogs[id] = Dialog{
 							inviteFromUri: origFrom.Address,
