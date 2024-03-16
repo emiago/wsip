@@ -1,4 +1,4 @@
-package psip
+package wsip
 
 import (
 	"github.com/emiago/sipgo/sip"
